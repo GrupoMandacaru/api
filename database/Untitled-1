@@ -1,0 +1,87 @@
+POSTGRES
+Criar banco:        createdb ecodomo
+Rodar banco:        psql ecodomo
+Criar tabelas:      CREATE table (atributos | tipo)
+Inserir:            INSERT INTO tabela VALUES (valores)
+Exibir:             SELECT * FROM tables WHERE attribute = algo
+
+CREATE TABLE cupulas (
+    id SERIAL PRIMARY KEY,
+    nome text
+);
+
+CREATE TABLE local (
+    id SERIAL REFERENCES cupulas(id)
+    nome text,
+    estado text,
+    cidade text,
+);
+
+CREATE TABLE contato (
+    id SERIAL REFERENCES cupulas(id)
+    nome text,
+    tel text,
+    email text,
+);
+
+CREATE table dados (
+    id SERIAL REFERENCES cupulas(id)
+    data                    date,
+    temperatura_solo        real,
+    umidade_solo            real,
+    temperatura_ambiente    real,
+    umidade_ambiente        real,
+    luminosidade            real
+);
+
+INSERT INTO "cupulas" VALUES (DEFAULT, 'Cúpula X');
+INSERT INTO "local" VALUES (DEFAULT, 'Cesar School', 'PE', 'Recife');
+INSERT INTO "contato" VALUES (DEFAULT, 'Felipe Ferraz', '123456789', 'contato@cesar.school');
+INSERT INTO "dados" VALUES (DEFAULT, now, 12, 23, 30, 4, 30);
+
+SELECT * FROM cupulas, dados;
+SELECT *
+	FROM cupulas
+	INNER JOIN dados ON cupulas.id = dados.id
+	INNER JOIN local ON cupulas.id = local.id
+	INNER JOIN contato ON cupulas.id = contato.id;
+
+------------------------------------------------------------------------------------------------------------------------
+
+MONGODB
+Rodar mongo:                ~/mongodb/bin/mongo
+Criar/usar novo banco:      use ecodomo
+Criar collection/inserir:   db.cupulas.insertOne()
+Exibir doc:                 db.cupulas.find()
+
+{
+    nome: "Cúpula X",
+    local: {
+        nome: "Cesar School",
+        estado: "PE",
+        cidade: "Recife",
+    },
+    contato: {
+        nome: "Felipe Ferraz",
+        tel: "123456789",
+        email: "ecodomo@cesar.school"
+    },
+    dados: [
+        {
+            data: "2018-19-02",
+            temperatura_solo: 32,
+            umidade_solo: 12,
+            temperatura_ambiente: 30,
+            umidade_ambiente: 30,
+            luminosidade: 40
+        },
+        {
+            data: "2018-20-02",
+            temperatura_solo: 22,
+            umidade_solo: 10,
+            temperatura_ambiente: 20,
+            umidade_ambiente: 10,
+            luminosidade: 20
+        }
+    ]
+}

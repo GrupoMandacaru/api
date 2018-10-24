@@ -1,14 +1,15 @@
 from database.settings import db
+import datetime
 
 cupulas = db.cupulas
 
-def set_cupula(cupula):
-    cupula_id = cupulas.insert_one(cupula).inserted_id
+def set_cupula_info(cupula_info):
+    cupula_id = cupulas.insert_one(cupula_info).inserted_id
     return cupula_id
 
-def get_cupula(cupula_name):
-    cupula = cupulas.find_one()
-    return cupula
+def get_cupula_info(cupula_id):
+    for cupula in cupulas.find({ "cupula_id": cupula_id }, { "_id": 0 }):
+        return cupula
 
 def get_all_cupulas():
     all_cupulas = []
@@ -16,15 +17,17 @@ def get_all_cupulas():
         all_cupulas.append(cupula["name"])
     return all_cupulas
 
-def set_cupula_attribute(cupula_name, attribute):
-    cupula = db[cupula_name]
-    cupula_id = cupula.insert_one(cupula).inserted_id
-    return cupula_id
+def set_cupula_attribute(cupula_id, args):
+    cupula = db[cupula_id]
+    args['date'] = datetime.datetime.now()
+    cupula.insert_one(args)
+    return 'ok'
 
-def get_cupula_attributes(cupula_name):
-    cupula = db[cupula_name]
-    query = cupula.find({}, { "_id": 0 })
-    attributes = []
-    for attribute in query:
-        attributes.append(attribute)
-    return attributes
+def get_cupula_attributes(cupula_id, limit):
+    cupula = db[cupula_id]
+    attributes_docs = []
+    query = cupula.find({}, { "_id": 0 }).sort([("date", -1)]).limit(limit)
+    for attributes_doc in query:
+        if limit == 1: return attributes_doc
+        attributes_docs.append(attributes_doc)
+    return attributes_docs

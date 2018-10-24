@@ -8,17 +8,24 @@ def index():
     return "Projeto Ecodomo :)"
 
 @app.route('/cupulas', methods=['GET', 'POST'])
-def get_cupulas():
+def allCupulas():
     if request.method == 'GET':
         return jsonify(get_all_cupulas())
-    # else:
-    #     cupula = request.form.get('name')
-    #     return setDome(cupula)
 
 @app.route('/cupulas/<cupula>', methods=['GET', 'POST'])
-def get_cupula_atts(cupula):
+def cupula(cupula):
     if request.method == 'GET':
-        return jsonify(get_cupula_attributes(cupula))
+        return jsonify(get_cupula_info(cupula))
+
+@app.route('/cupulas/<cupula>/data', methods=['GET', 'POST'])
+def cupulaAttributes(cupula):
+    if request.method == 'GET':
+        args = request.args.get('limit')
+        limit = int(args) if args is not None else 1
+        return jsonify(get_cupula_attributes(cupula, limit))
+    else:
+        args = request.args.to_dict()
+        return set_cupula_attribute(cupula, args)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 
