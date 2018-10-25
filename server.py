@@ -24,8 +24,9 @@ def cupulaAttributes(cupula):
         limit = int(args) if args is not None else 1
         return jsonify(get_cupula_attributes(cupula, limit))
     else:
-        args = request.args.to_dict()
-        return set_cupula_attribute(cupula, args)
+        # args = request.args.to_dict()
+        # return set_cupula_attribute(cupula, args)
+        return "request: {}, args: {}".format(request, request.args)
 
 if __name__ == '__main__':
     app.run(debug=True) 
