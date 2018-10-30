@@ -1,12 +1,12 @@
 # API
-----
+
 A api está hospedada no Heroku:
 https://ecodomo-api.herokuapp.com/
 
 ### Get /cupulas
 Retorna um array com os nomes das cúpulas cadastradas
 
-### Get /cupulas/<cupula-id>
+### Get /cupulas/\<cupula-id\>
 Retorna um objeto com os atributos da cúpula
 ``` 
 Exemplo: GET /cupulas/cupula_x
@@ -27,7 +27,7 @@ Response:  {
             }
 ```
 
-### Get /cupulas/<cupula-id>/data
+### Get /cupulas/\<cupula-id\>/data
 Retorna um objeto com os dados mais recentes monitorados da cúpula
 ``` 
 Exemplo: GET /cupulas/cupula_x/data
