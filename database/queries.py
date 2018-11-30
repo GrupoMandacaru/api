@@ -13,8 +13,8 @@ def get_cupula_info(cupula_id):
 
 def get_all_cupulas():
     all_cupulas = []
-    for cupula in cupulas.find({}, { "name": 1, "_id": 0 }):
-        all_cupulas.append(cupula["name"])
+    for cupula in cupulas.find({}, { "_id": 0 }):
+        all_cupulas.append(cupula)
     return all_cupulas
 
 def set_cupula_attribute(cupula_id, args):
